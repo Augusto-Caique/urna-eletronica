@@ -34,8 +34,11 @@ class CandidateEntity {
     %% entidades do DB no java
     +id: int
     +partyId: int
+    +kind:
     +name: string
     +image: string
+    +viceName: string
+    +viceImage: string
 }
 
 class ElectoralPartyEntity {
@@ -98,11 +101,17 @@ class IndicatorLed {
     -blinking: bool
 }
 
+class RoleKind <<enumeration>> {
+    Mayor
+    CityCouncilour
+}
+
 class LedColor <<enumeration>> {
     Off
     Green
     Yellow
 }
+
 
 Program *-- PollWorkerTerminal : Singleton
 Program *-- VoterTerminal : Singleton
@@ -124,4 +133,5 @@ VoterTerminal ..> ElectoralPartyEntity : Consome
 VoterTerminal ..> CandidateRepository : Requisita Serviços
 VoterTerminal ..> BallotBox : Requisita Serviços
 
+CandidateEntity ..> RoleKind : Usa
 IndicatorLed ..> LedColor : Usa
