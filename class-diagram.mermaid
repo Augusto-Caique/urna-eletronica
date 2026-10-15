@@ -16,36 +16,51 @@ class InputService <<interface>> {
 
 }
 
-class DesktopInputManager {
-
+class DesktopInputService {
+    %%Raspberry Pi
 }
 
-class EmbeddedInputManager {
-    
+class EmbeddedInputService {
+
 }
 
 class CandidateRepository {
-
+    
+    +String getByNumber ()
 }
 
 class CandidateEntity {
     %% TODO ver com nirton o encapsulamento das
     %% entidades do DB no java
     +id: int
+    +partidoId: int
     +name: string
     +image: string
 }
 
+class ElectoralPartyEntity {
+    %% TODO ver com nirton o encapsulamento das
+    %% entidades do DB no java
+    +id: int
+    +name: string
+}
+
 class VoteEntry {
+    %% TODO ver com nirton o encapsulamento das
+    %% entidades do DB no java
     +id: int
     +electorId: string
     +candidateId: int
 }
 
+class CandidateVotes {
+    +candidateId: int
+    +candidateName: s
+}
+
 class BallotBox {
     %% municipality -> 5 digits
     %% UE -> 8 digits
-    %% 
 
     -voteEntries: List<VoteEntry>
     -municipality: String
@@ -65,11 +80,32 @@ class BallotBox {
     +void end()
 
     +int getTotalVotes()
-    +bool alreadyVoted(string electorId)
+    +boolean alreadyVoted(string electorId)
 
     +void emmit()
 }
 
+class PollWorkerTerminal {
+    
+}
+
+class VoterTerminal {
+    
+}
+
+class IndicatorLed {
+    -led: LedColor
+    -blinking: bool
+}
+
+class LedColor <<enumeration>> {
+    Off
+    Green
+    Yellow
+}
+
+Program *-- PollWorkerTerminal : Singleton
+Program *-- VoterTerminal : Singleton
 Program *-- GraphicsService : Singleton
 Program *-- ElectoralService : Singleton
 Program *-- InputService : Singleton
@@ -77,7 +113,15 @@ Program *-- InputService : Singleton
 ElectoralService o-- CandidateRepository
 ElectoralService o-- BallotBox
 
-InputService <|-- DesktopInputManager
-InputService <|-- EmbeddedInputManager
+InputService <|.. DesktopInputService
+InputService <|.. EmbeddedInputService
 
 BallotBox "1" *-- "*" VoteEntry : Listado por
+CandidateRepository ..> CandidateEntity : Retorna
+CandidateRepository ..> ElectoralPartyEntity : Retorna
+VoterTerminal ..> CandidateEntity : Consome
+VoterTerminal ..> ElectoralPartyEntity : Consome
+VoterTerminal ..> CandidateRepository : Requisita Serviços
+VoterTerminal ..> BallotBox : Requisita Serviços
+
+IndicatorLed ..> LedColor : Usa
