@@ -25,8 +25,8 @@ class EmbeddedInputService {
 }
 
 class CandidateRepository {
-    
-    +String getByNumber ()
+    +String getPartyByNumber(String number)
+    +String getCandidateByNumber(String number)
 }
 
 class CandidateEntity {
@@ -35,24 +35,24 @@ class CandidateEntity {
     +id: int
     +partyId: int
     +kind: RoleKind
-    +name: string
-    +image: string
-    +viceName: string
-    +viceImage: string
+    +name: String
+    +image: String
+    +viceName: String
+    +viceImage: String
 }
 
 class ElectoralPartyEntity {
     %% TODO ver com nirton o encapsulamento das
     %% entidades do DB no java
     +id: int
-    +name: string
+    +name: String
 }
 
 class VoteEntry {
     %% TODO ver com nirton o encapsulamento das
     %% entidades do DB no java
     +id: int
-    +electorId: string
+    +electorId: String
     +candidateId: int
 }
 
@@ -83,9 +83,9 @@ class BallotBox {
     +void end()
 
     +int getTotalVotes()
-    +boolean alreadyVoted(string electorId)
+    +boolean alreadyVoted(String electorId)
 
-    +void emmit()
+    +void emmitBulletin()
 }
 
 class PollWorkerTerminal {
