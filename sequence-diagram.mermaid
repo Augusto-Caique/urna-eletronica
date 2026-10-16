@@ -1,0 +1,57 @@
+sequenceDiagram
+
+actor Mesário
+participant PoolWorkerTerminal
+participant VotingServer
+participant VotingTerminal
+actor Votante
+
+Mesário ->> PoolWorkerTerminal : Insere credenciais
+Mesário ->> PoolWorkerTerminal : CONFIRMA
+
+PoolWorkerTerminal ->> VotingServer : Credenciais
+
+par Voter view
+    VotingServer ->> VotingTerminal : Liberação
+and Resposta mesário
+    VotingServer -->> PoolWorkerTerminal : Notifica pra aguardar
+    PoolWorkerTerminal -->> PoolWorkerTerminal : Aguarda
+end
+
+VotingTerminal ->> Votante : Tela de vereador
+
+Votante ->> VotingTerminal : Numero
+Votante ->> VotingTerminal : Numero
+VotingTerminal ->> VotingServer : Requisita partido
+VotingServer -->> VotingTerminal : Partido
+VotingTerminal ->> VotingTerminal : Mostra partido
+
+Votante ->> VotingTerminal : Numero
+Votante ->> VotingTerminal : Numero
+Votante ->> VotingTerminal : Numero
+VotingTerminal ->> VotingServer : Requisita vereador
+VotingServer -->> VotingTerminal : Vereador
+VotingTerminal ->> VotingTerminal : Mostra vereador
+
+Votante ->> VotingTerminal : CONFIRMA
+
+VotingTerminal ->> Votante : Tela de prefeito
+
+Votante ->> VotingTerminal : Numero
+Votante ->> VotingTerminal : Numero
+
+VotingTerminal ->> VotingServer : Requisita prefeito
+VotingServer ->> VotingTerminal : Prefeito
+VotingTerminal ->> VotingTerminal : Mostra prefeito
+
+Votante ->> VotingTerminal : CONFIRMA
+
+VotingTerminal ->> VotingServer : Confirmação
+
+par Voter view
+    VotingServer -->> VotingTerminal : Notifica conclusão
+    VotingTerminal ->> VotingTerminal : Mostra FIM
+and Resposta mesário
+    VotingServer -->> PoolWorkerTerminal : Notifica conclusão
+    PoolWorkerTerminal -->> PoolWorkerTerminal : Mostra desocupado
+end
