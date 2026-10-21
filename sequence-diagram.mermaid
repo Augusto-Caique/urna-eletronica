@@ -4,7 +4,7 @@ actor Mesário
 participant PoolWorkerTerminal
 participant VotingServer
 participant VotingTerminal
-actor Votante
+actor Eleitor
 
 Mesário ->> PoolWorkerTerminal : Insere credenciais
 Mesário ->> PoolWorkerTerminal : CONFIRMA
@@ -18,33 +18,33 @@ and Resposta mesário
     PoolWorkerTerminal -->> PoolWorkerTerminal : Aguarda
 end
 
-VotingTerminal ->> Votante : Tela de vereador
+VotingTerminal ->> Eleitor : Tela de vereador
 
-Votante ->> VotingTerminal : Numero
-Votante ->> VotingTerminal : Numero
+Eleitor ->> VotingTerminal : Numero
+Eleitor ->> VotingTerminal : Numero
 VotingTerminal ->> VotingServer : Requisita partido
 VotingServer -->> VotingTerminal : Partido
 VotingTerminal ->> VotingTerminal : Mostra partido
 
-Votante ->> VotingTerminal : Numero
-Votante ->> VotingTerminal : Numero
-Votante ->> VotingTerminal : Numero
+Eleitor ->> VotingTerminal : Numero
+Eleitor ->> VotingTerminal : Numero
+Eleitor ->> VotingTerminal : Numero
 VotingTerminal ->> VotingServer : Requisita vereador
 VotingServer -->> VotingTerminal : Vereador
 VotingTerminal ->> VotingTerminal : Mostra vereador
 
-Votante ->> VotingTerminal : CONFIRMA
+Eleitor ->> VotingTerminal : CONFIRMA
 
-VotingTerminal ->> Votante : Tela de prefeito
+VotingTerminal ->> Eleitor : Tela de prefeito
 
-Votante ->> VotingTerminal : Numero
-Votante ->> VotingTerminal : Numero
+Eleitor ->> VotingTerminal : Numero
+Eleitor ->> VotingTerminal : Numero
 
 VotingTerminal ->> VotingServer : Requisita prefeito
 VotingServer ->> VotingTerminal : Prefeito
 VotingTerminal ->> VotingTerminal : Mostra prefeito
 
-Votante ->> VotingTerminal : CONFIRMA
+Eleitor ->> VotingTerminal : CONFIRMA
 
 VotingTerminal ->> VotingServer : Confirmação
 
