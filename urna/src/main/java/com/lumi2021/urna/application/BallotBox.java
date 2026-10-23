@@ -17,6 +17,8 @@ public class BallotBox {
     }
 
 
+
+
     private final class TextAlign {
         private TextAlign() {}
 
@@ -24,6 +26,22 @@ public class BallotBox {
             text = text == null ? "null" : text;
             if (text.length() >= width) return text;
             return text + " ".repeat(width - text.length());
+        }
+
+        public static String row(int[] widths, String... values) {
+            if (widths.length != values.length) {
+                throw new IllegalArgumentException(
+                        "A quantidade de larguras deve corresponder à quantidade de valores."
+                );
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < values.length; i++) {
+                result.append(left(values[i], widths[i]));
+            }
+
+            return result.toString();
         }
 
         public static String right(String text, int width) {
