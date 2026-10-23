@@ -1,8 +1,8 @@
 classDiagram
 
-class Program {
-    +void main()$
-}
+%% class Program {
+%%    +void main()$
+%% }
 
 class GraphicsService {
     
@@ -16,13 +16,13 @@ class InputService <<interface>> {
 
 }
 
-class DesktopInputService {
+%% class DesktopInputService {
     %%Raspberry Pi
-}
+%% }
 
-class EmbeddedInputService {
+%% class EmbeddedInputService {
 
-}
+%% }
 
 class CandidateRepository {
     +String getPartyByNumber(String number)
@@ -88,12 +88,20 @@ class BallotBox {
     +void emmitBulletin()
 }
 
-class PollWorkerTerminal {
+class PoolWorkerView {
     
 }
 
-class VoterTerminal {
+class PoolWorkerController {
+
+}
+
+class VoterView {
     
+}
+
+class VoterController {
+
 }
 
 class IndicatorLed {
@@ -113,25 +121,34 @@ class LedColor <<enumeration>> {
 }
 
 
-Program *-- PollWorkerTerminal : Singleton
-Program *-- VoterTerminal : Singleton
-Program *-- GraphicsService : Singleton
-Program *-- ElectoralService : Singleton
-Program *-- InputService : Singleton
+%% Program *-- PoolWorkerView : Singleton
+%% Program *-- PoolWorkerController : Singleton
+%% Program *-- VoterView : Singleton
+%% Program *-- VoterController : Singleton
+%% Program *-- GraphicsService : Singleton
+%% Program *-- ElectoralService : Singleton
+%% Program *-- InputService : Singleton
+
+PoolWorkerView ..> InputService : Depende de
+VoterView ..> InputService : Depende de
+
+PoolWorkerView <..> PoolWorkerController : Comunica com
+VoterView <..> VoterController : Comunica com
 
 ElectoralService o-- CandidateRepository
 ElectoralService o-- BallotBox
 
-InputService <|.. DesktopInputService
-InputService <|.. EmbeddedInputService
+%% InputService <|.. DesktopInputService
+%% InputService <|.. EmbeddedInputService
 
 BallotBox "1" *-- "*" VoteEntry : Listado por
 CandidateRepository ..> CandidateEntity : Retorna
 CandidateRepository ..> ElectoralPartyEntity : Retorna
-VoterTerminal ..> CandidateEntity : Consome
-VoterTerminal ..> ElectoralPartyEntity : Consome
-VoterTerminal ..> CandidateRepository : Requisita Serviços
-VoterTerminal ..> BallotBox : Requisita Serviços
+
+PoolWorkerController ..> ElectoralService : Comunica com
+VoterController ..> ElectoralService : Comunica com
 
 CandidateEntity ..> RoleKind : Usa
 IndicatorLed ..> LedColor : Usa
+
+PoolWorkerView *-- IndicatorLed : Usa
