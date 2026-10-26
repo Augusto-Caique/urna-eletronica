@@ -1,7 +1,10 @@
 package com.lumi2021.urna;
 
 import com.lumi2021.urna.application.BallotBox;
+import com.lumi2021.urna.controller.VoterController;
+import com.lumi2021.urna.controller.poolWorker.DesktopPoolWorkerController;
 import com.lumi2021.urna.controller.poolWorker.EmbeddedPoolWorkerController;
+import com.lumi2021.urna.controller.poolWorker.PoolWorkerController;
 import com.lumi2021.urna.view.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -12,40 +15,70 @@ public class Program {
     static VoterView voterView;
     static BulletinView bulletinView;
 
-    public static void main() {
+    static PoolWorkerController poolWorkerController;
+    static VoterController voterController;
+    static VotingScreenEmbeddedContainer votingScreenEmbeddedContainer;
 
-        var a = new EmbeddedPoolWorkerController();
+    static BallotBox ballotBox;
 
-        var ballotBox = new BallotBox();
-        var result = ballotBox.emitBulletin();
-        //IO.println(result);
+    public static void main(String[] args) {
 
-        SwingUtilities.invokeLater(() -> {
+        boolean isEmbedded = args.length >= 1 && (args[0].equals("--embedded") || args[0].equals("-e"));
+
+        WindowAdapter closeHandler = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        };
+
+        if (!isEmbedded) {
+            // Executando no modo desktop
+
             poolWorkerView = new PoolWorkerView();
             voterView = new VoterView();
-            bulletinView = new BulletinView(result);
 
-            WindowAdapter closeHandler = new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    System.exit(0);
-                }
-            };
+            poolWorkerController = new DesktopPoolWorkerController();
+            voterController = new VoterController();
 
-            poolWorkerView.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            voterView.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            bulletinView.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            ballotBox = new BallotBox();
+            var result = ballotBox.emitBulletin();
+            //IO.println(result);
 
-            poolWorkerView.addWindowListener(closeHandler);
-            voterView.addWindowListener(closeHandler);
-            bulletinView.addWindowListener(closeHandler);
+            SwingUtilities.invokeLater(() -> {
+                poolWorkerView = new PoolWorkerView();
+                voterView = new VoterView();
+                bulletinView = new BulletinView(result);
 
-            poolWorkerView.setVisible(true);
-            voterView.setVisible(true);
-            bulletinView.setVisible(true);
-            
+                poolWorkerView.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                voterView.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                bulletinView.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        });
+                poolWorkerView.addWindowListener(closeHandler);
+                voterView.addWindowListener(closeHandler);
+                bulletinView.addWindowListener(closeHandler);
+
+                poolWorkerView.setVisible(true);
+                voterView.setVisible(true);
+                bulletinView.setVisible(true);
+            });
+        }
+        else {
+            // Executando no modo embarcado
+
+            poolWorkerController = new DesktopPoolWorkerController();
+            voterController = new VoterController();
+            votingScreenEmbeddedContainer = new VotingScreenEmbeddedContainer();
+
+            ballotBox = new BallotBox();
+
+            SwingUtilities.invokeLater(() -> {
+                votingScreenEmbeddedContainer.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                votingScreenEmbeddedContainer.addWindowListener(closeHandler);
+                votingScreenEmbeddedContainer.setVisible(true);
+            });
+        }
+
     }
 
 }

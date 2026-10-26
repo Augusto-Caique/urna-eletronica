@@ -16,17 +16,21 @@ class InputService <<interface>> {
 
 }
 
-%% class DesktopInputService {
+class DesktopInputService {
     %%Raspberry Pi
-%% }
+}
 
-%% class EmbeddedInputService {
+class EmbeddedInputService {
 
-%% }
+}
 
 class CandidateRepository {
     +String getPartyByNumber(String number)
     +String getCandidateByNumber(String number)
+}
+
+class ElectorRepository {
+    +bool isElectorIdValid(String electorId)
 }
 
 class CandidateEntity {
@@ -61,10 +65,11 @@ class CandidateVotes {
     +candidateName: s
 }
 
-class BallotBox {
+class BallotBoxService {
     %% municipality -> 5 digits
     %% UE -> 8 digits
 
+    -initialized: boolean;
     -voteEntries: List<VoteEntry>
     -municipality: String
     -municipalityCode: int 
@@ -136,12 +141,13 @@ PoolWorkerView <..> PoolWorkerController : Comunica com
 VoterView <..> VoterController : Comunica com
 
 ElectoralService o-- CandidateRepository
-ElectoralService o-- BallotBox
+ElectoralService o-- ElectorRepository
+ElectoralService o-- BallotBoxService
 
-%% InputService <|.. DesktopInputService
-%% InputService <|.. EmbeddedInputService
+InputService <|.. DesktopInputService
+InputService <|.. EmbeddedInputService
 
-BallotBox "1" *-- "*" VoteEntry : Listado por
+BallotBoxService "1" *-- "*" VoteEntry : Listado por
 CandidateRepository ..> CandidateEntity : Retorna
 CandidateRepository ..> ElectoralPartyEntity : Retorna
 

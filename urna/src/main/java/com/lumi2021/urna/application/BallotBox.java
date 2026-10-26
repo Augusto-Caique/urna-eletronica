@@ -1,7 +1,5 @@
 package com.lumi2021.urna.application;
 
-//EM CONSTRUÇÃO
-
 import com.lumi2021.urna.domain.models.VoteEntry;
 
 import java.time.LocalDateTime;
@@ -10,25 +8,25 @@ import java.util.List;
 public class BallotBox {
 
     // Atributos
-    private List<VoteEntry> voteentries;
-    private String municipality; //Municipio em que a Urna será utilizada.
-    private int municipalityCode; //Código do municipio no qual a urna será usada.
-    private LocalDateTime openingDateTime; //Local, data e hora do inicio da votação.
-    private LocalDateTime closingDataTime = LocalDateTime.now(); //Local, data e hora do encerramento da votação.
-    private int electoralZone; //Zona eleitoral em que a urna será usada.
-    private int section; //Seção eleitoral onde a urna será usada.
-    private int eligibleVoters; //Quantidade total de votos elegiveis.
+    private List<VoteEntry> voteEntries;
+    private String municipality; // Municipio em que a Urna será utilizada.
+    private int municipalityCode; // Código do municipio no qual a urna será usada.
+    private LocalDateTime openingDateTime; // Data e hora do inicio da votação.
+    private LocalDateTime closingDataTime; // Data e hora do encerramento da votação.
+    private int electoralZone; // Zona eleitoral em que a urna será usada.
+    private int section; // Seção eleitoral onde a urna será usada.
+    private int eligibleVoters; // Quantidade total de votos elegiveis.
 
     // Inicializa todos os atributos quando a urna for ativada
     public void initialize(
-            String municipality,
-            int municipalityCode,
-            LocalDateTime openingDateTime,
-            LocalDateTime closingDataTime,
-            int electoralZon,
-            int section,
-            int eligibleVoters
-            ) {
+        String municipality,
+        int municipalityCode,
+        LocalDateTime openingDateTime,
+        LocalDateTime closingDataTime,
+        int electoralZon,
+        int section,
+        int eligibleVoters
+    ) {
 
     }
 
@@ -69,9 +67,6 @@ public class BallotBox {
         return sb.toString();
 
     }
-
-// ############################################################################################################
-
 
     private final class TextAlign {
         private TextAlign() {}
