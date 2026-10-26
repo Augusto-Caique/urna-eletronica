@@ -1,0 +1,18 @@
+digraph Firestore {
+  graph [fontname="DejaVu Sans", bgcolor="#FFFFFF", pad="0.28", ranksep="0.85", nodesep="0.6", splines="spline", label="URNA POKÉMON  •  Cloud Firestore", labelloc="t", fontsize=18, fontcolor="#173A5C"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4F8FC", color="#5586B7", fontname="DejaVu Sans", fontsize=12, margin="0.23,0.16"];
+  edge [fontname="DejaVu Sans", fontsize=10, color="#708399", arrowsize=0.75];
+  partido [label="partidos / {partidoId}\nnome · sigla · numero · tipoPrimario · ativo"];
+  pokemon [label="pokemons / {pokemonId}\nnumeroPokedex · nome · tipoPrimario · tipoSecundario\npartidoId · geracao · disponivel · imagemUrl"];
+  eleicao [label="eleicoes / eleicao-001\nnome · modalidade · cargos\nstatus · ativa · segundoTurno", fillcolor="#FFF5DF", color="#E9A63B"];
+  candidato [label="candidatos / {candidatoId}\npokemonId · partidoId · cargo\nnumero · votos · ativo", fillcolor="#F0FBF7", color="#49A78C"];
+  apuracao [label="apuracao / {cargo}\nvalidos · brancos · nulos · total", fillcolor="#F0FBF7", color="#49A78C"];
+  {rank=same; partido; pokemon;}
+  {rank=same; candidato; apuracao;}
+  eleicao -> candidato [label="subcoleção", color="#BB963F"];
+  eleicao -> apuracao [label="subcoleção", color="#BB963F"];
+  candidato -> pokemon [label="pokemonId", style=dashed, constraint=false];
+  candidato -> partido [label="partidoId", style=dashed, constraint=false];
+  pokemon -> partido [label="partidoId", style=dashed, constraint=false];
+  candidato -> apuracao [label="cargo", style=dashed, constraint=false];
+}
