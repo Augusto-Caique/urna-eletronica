@@ -1,0 +1,16 @@
+flowchart TB
+  subgraph raiz["Cloud Firestore — coleções raiz"]
+    partidos["partidos / {partidoId}<br/>nome, sigla, numero, tipoPrimario, ativo"]
+    pokemons["pokemons / {pokemonId}<br/>numeroPokedex, nome, tipoPrimario,<br/>tipoSecundario, partidoId, geracao,<br/>disponivel, imagemUrl"]
+    eleicoes["eleicoes / eleicao-001<br/>nome, modalidade, cargos,<br/>status, ativa, segundoTurno"]
+  end
+  subgraph dentro["Subcoleções de eleicoes/eleicao-001"]
+    candidatos["candidatos / {candidatoId}<br/>pokemonId, partidoId,<br/>cargo, numero, votos, ativo"]
+    apuracao["apuracao / {cargo}<br/>validos, brancos, nulos, total"]
+  end
+  eleicoes -->|"contém"| candidatos
+  eleicoes -->|"contém"| apuracao
+  candidatos -.->|"pokemonId → ID do documento"| pokemons
+  candidatos -.->|"partidoId → ID do documento"| partidos
+  pokemons -.->|"partidoId → ID do documento"| partidos
+  candidatos -.->|"cargo determina contadores"| apuracao
