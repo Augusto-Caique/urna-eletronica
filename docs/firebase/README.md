@@ -3,8 +3,8 @@
 **Projeto:** AV3 — Programação Orientada a Objetos (Java + Swing + NoSQL/Firebase)  
 **Modalidade escolhida:** eleição municipal (VEREADOR e PREFEITO), em turno único  
 **Versão da documentação:** 1.0 — 26/10/2026  
-**Responsável pelo banco:** preencher com nome do integrante  
-**ID do projeto Firebase:** preencher com o valor de *Configurações do projeto → Geral → ID do projeto*
+**Responsável pelo banco:** Jackson Vieira  
+**ID do projeto Firebase:** av3-poo---urna
 
 ## 1. Finalidade e limites
 
