@@ -17,6 +17,7 @@ dependencies {
     // javalin 7.0 tem uma API muito cursed
     implementation("io.javalin:javalin:6.7.0")
     runtimeOnly("org.slf4j:slf4j-simple:2.0.16")
+
 }
 
 tasks.test {
